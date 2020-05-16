@@ -52,6 +52,8 @@ fn main() {
     let input = read_input().unwrap();
 
     let recentfile = matches.value_of("file").unwrap();
+    let recentfile = PathBuf::from(recentfile).canonicalize().unwrap().to_str().unwrap().to_string();
+
     let max = matches.value_of("count").unwrap().parse().unwrap();
 
     add_item_to_recentfile(&input, &recentfile, max).unwrap();
