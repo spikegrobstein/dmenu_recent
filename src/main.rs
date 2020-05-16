@@ -52,8 +52,9 @@ fn main() {
     let input = read_input().unwrap();
 
     let recentfile = matches.value_of("file").unwrap();
+    let max = matches.value_of("count").unwrap().parse().unwrap();
 
-    add_item_to_recentfile(&input, &recentfile, 6).unwrap();
+    add_item_to_recentfile(&input, &recentfile, max).unwrap();
 }
 
 fn read_input() -> Result<String> {
