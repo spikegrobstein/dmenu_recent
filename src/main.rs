@@ -5,7 +5,7 @@
 // outputs the item to STDOUT
 
 extern crate clap;
-use clap::{Arg,App};
+use clap::{Arg,App,ArgMatches};
 
 use anyhow::{Result, anyhow};
 
@@ -48,15 +48,35 @@ fn main() {
         )
         .get_matches();
 
+    match do_thing(&matches) {
+        Ok(cmd) => {
+            println!("{}", cmd);
+            std::process::exit(0);
+        },
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            std::process::exit(1);
+        }
+    };
+}
 
-    let input = read_input().unwrap();
+fn do_thing(matches: &ArgMatches) -> Result<String> {
+    // read the command from STDIN
+    let input = read_input()?;
 
     let recentfile = matches.value_of("file").unwrap();
-    let recentfile = PathBuf::from(recentfile).canonicalize().unwrap().to_str().unwrap().to_string();
+    let recentfile = PathBuf::from(recentfile).canonicalize()?
+        .to_str()
+        .unwrap()
+        .to_string();
 
-    let max = matches.value_of("count").unwrap().parse().unwrap();
+    let max = matches.value_of("count")
+        .unwrap()
+        .parse()?;
 
-    add_item_to_recentfile(&input, &recentfile, max).unwrap();
+    add_item_to_recentfile(&input, &recentfile, max)?;
+
+    Ok(input)
 }
 
 fn read_input() -> Result<String> {
