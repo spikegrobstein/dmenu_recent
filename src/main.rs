@@ -29,6 +29,7 @@ fn main() {
             .short("c")
             .long("count")
             .takes_value(true)
+            .default_value("6")
             .validator(|count| {
                 match count.parse::<u32>() {
                     Ok(_) => Ok(()),
