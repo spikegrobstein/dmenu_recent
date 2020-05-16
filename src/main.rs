@@ -50,13 +50,10 @@ fn main() {
 
 
     let input = read_input().unwrap();
-    eprintln!("got value: '{}'", input);
 
     let recentfile = matches.value_of("file").unwrap();
 
     add_item_to_recentfile(&input, &recentfile, 6).unwrap();
-
-    eprintln!("done.");
 }
 
 fn read_input() -> Result<String> {
@@ -95,7 +92,7 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
     let f = match File::open(&recentfile) {
         Ok(f) => f,
         Err(_) => {
-            eprintln!("No recentfile. not loading anything.");
+            // eprintln!("No recentfile. not loading anything.");
             return 0
         },
     };
@@ -103,8 +100,6 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
     let mut reader = BufReader::new(f);
 
     loop {
-        eprintln!("loop iteration...");
-
         let mut line = String::new();
         if let Err(_) = reader.read_line(&mut line) {
             break;
@@ -116,22 +111,19 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
 
         // remove any whitespace on the edges
         let line = line.trim_end_matches('\n');
-
-        eprintln!("got line: {}", line);
-
         let line = line.to_string();
 
         if ! entries.contains(&line) {
             entries.push(line);
         }
 
+        // we're maxed out. end.
         if entries.len() >= max {
             break;
         }
     }
 
-    eprintln!("Done loading recentfile");
-
+    // return the number of elements that we read.
     entries.len() - 1
 }
 
