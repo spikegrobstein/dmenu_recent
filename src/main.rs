@@ -101,12 +101,10 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
 
     loop {
         let mut line = String::new();
-        if let Err(_) = reader.read_line(&mut line) {
-            break;
-        }
-
-        if line.len() == 0 {
-            break;
+        match reader.read_line(&mut line) {
+            Ok(0) => break,
+            Err(_) => break,
+            _ => {}, // do nothing
         }
 
         // remove any whitespace on the edges
