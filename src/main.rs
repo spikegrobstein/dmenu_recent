@@ -134,7 +134,6 @@ fn default_file_path() -> String {
     let mut path = PathBuf::from(home_path);
     path.push(DEFAULT_FILENAME);
 
-    // TODO maybe this should use some option chaining or something.
     path.to_str()
         .unwrap()
         .to_string()
