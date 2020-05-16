@@ -126,10 +126,7 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
 }
 
 fn default_file_path() -> String {
-    let home_path = match env::var("HOME") {
-        Ok(val) => val,
-        Err(_) => "./".to_string(),
-    };
+    let home_path = env::var("HOME").unwrap_or("./".to_string());
 
     let mut path = PathBuf::from(home_path);
     path.push(DEFAULT_FILENAME);
