@@ -7,6 +7,10 @@ Mostly being used for myself. No kind of release. For usage, see:
 
     cargo run -- --help
 
+The executable takes the first line from STDIN, prepends it to its recentfile (default is `~/.dmenu_recent`)
+and then outputs the first line to STDOUT so it can be picked up by the next stage in a pipeline. By default,
+the recentfile will track the last 6 unique commands passed to it.
+
 ## Quickstart
 
 Build the project:
