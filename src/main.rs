@@ -21,9 +21,9 @@ const DEFAULT_FILENAME: &str = ".dmenu.recent";
 fn main() {
     let default_file = default_file_path();
 
-    let matches = App::new("dmenu_remember")
-        .version("0.0.0")
-        .author("Spike Grobstein <me@spike.cx>")
+    let matches = App::new(clap::crate_name!())
+        .version(clap::crate_version!())
+        .author(clap::crate_authors!())
         .arg(Arg::with_name("count")
             .help("The number of items to remember")
             .short("c")
