@@ -49,9 +49,14 @@ fn main() {
         )
         .get_matches();
 
+    let should_output = ! matches.is_present("no-output");
+
+    // catch-all for errors from the implementation
     match do_thing(&matches) {
         Ok(cmd) => {
-            println!("{}", cmd);
+            if should_output {
+                println!("{}", cmd);
+            }
             std::process::exit(0);
         },
         Err(e) => {
@@ -61,6 +66,7 @@ fn main() {
     };
 }
 
+// yeah, naming stuff is hard.
 fn do_thing(matches: &ArgMatches) -> Result<String> {
     // read the command from STDIN
     let input = read_input()?;
