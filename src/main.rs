@@ -33,7 +33,7 @@ fn main() {
             .validator(|count| {
                 match count.parse::<u32>() {
                     Ok(_) => Ok(()),
-                    Err(_) => Err("Count must be an integer.".to_string()),
+                    Err(_) => Err("Count must be an integer.".to_owned()),
                 }
             })
         )
@@ -75,7 +75,7 @@ fn do_thing(matches: &ArgMatches) -> Result<String> {
     let recentfile = PathBuf::from(recentfile).canonicalize()?
         .to_str()
         .unwrap()
-        .to_string();
+        .to_owned();
 
     let max = matches.value_of("count")
         .unwrap()
@@ -93,7 +93,7 @@ fn read_input() -> Result<String> {
         0 =>
             Err(anyhow!("Expected input, but got nothing.")),
         _ =>
-            Ok(input.trim_end_matches('\n').to_string()), // we good
+            Ok(input.trim_end_matches('\n').to_owned()), // we good
     }
 }
 
@@ -104,7 +104,7 @@ fn add_item_to_recentfile(item: &str, recentfile: &str, max: usize) -> Result<()
     // write out the file again.
 
     let mut entries = Vec::new();
-    entries.push(item.to_string()); // push the item first
+    entries.push(item.to_owned()); // push the item first
 
     load_recentfile(&mut entries, &recentfile, max);
 
@@ -139,7 +139,7 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
 
         // remove any whitespace on the edges
         let line = line.trim_end_matches('\n');
-        let line = line.to_string();
+        let line = line.to_owned();
 
         if ! entries.contains(&line) {
             entries.push(line);
@@ -156,12 +156,12 @@ fn load_recentfile(entries: &mut Vec<String>, recentfile: &str, max: usize) -> u
 }
 
 fn default_file_path() -> String {
-    let home_path = env::var("HOME").unwrap_or("./".to_string());
+    let home_path = env::var("HOME").unwrap_or("./".to_owned());
 
     let mut path = PathBuf::from(home_path);
     path.push(DEFAULT_FILENAME);
 
     path.to_str()
         .unwrap()
-        .to_string()
+        .to_owned()
 }
